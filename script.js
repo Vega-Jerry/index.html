@@ -13,14 +13,14 @@ document.addEventListener('DOMContentLoaded', () => {
     campo.classList.add('is-invalid');
     campo.classList.remove('is-valid');
     let feedback = campo.nextElementSibling;
-    if(feedback) feedback.textContent = mensaje;
+    if(feedback) feedback.textContent = mensaje; // <-- ARREGLO AQUI
   }
 
   function setValid(campo) {
     campo.classList.remove('is-invalid');
     campo.classList.add('is-valid');
     let feedback = campo.nextElementSibling;
-    if(feedback) feedback.textContent = '';
+    if(feedback) feedback.textContent = ''; // <-- ARREGLO AQUI
   }
 
   const validarNombre = () => {
@@ -53,13 +53,13 @@ document.addEventListener('DOMContentLoaded', () => {
       registros.push(nuevo);
       localStorage.setItem('notas', JSON.stringify(registros));
       renderizar();
-      mensajeValidacion.innerHTML = `<div class="alert alert-success alert-dismissible fade show" role="alert">Registro guardado con éxito! <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>`;
+      mensajeValidacion.innerHTML = `<div class="alert alert-success alert-dismissible fade show">Registro guardado con éxito! <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>`;
       form.reset();
       [nombre, descripcion, categoria].forEach(c => c.classList.remove('is-valid'));
-      setTimeout(() => mensajeValidacion.innerHTML = '', 4000);
+      setTimeout(() => mensajeValidacion.innerHTML = '', 3000);
     } else {
-      mensajeValidacion.innerHTML = `<div class="alert alert-danger alert-dismissible fade show" role="alert">Corrige los errores. <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>`;
-      setTimeout(() => mensajeValidacion.innerHTML = '', 4000);
+      mensajeValidacion.innerHTML = `<div class="alert alert-danger alert-dismissible fade show">Corrige los errores. <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>`;
+      setTimeout(() => mensajeValidacion.innerHTML = '', 3000);
     }
   });
 
@@ -71,9 +71,9 @@ document.addEventListener('DOMContentLoaded', () => {
       registros.forEach(reg => {
         lista.innerHTML += `
           <div class="col-md-6 col-lg-4">
-            <div class="card h-100 shadow-sm border-primary">
+            <div class="card h-100 shadow-sm">
               <div class="card-body">
-                <h5 class="card-title fw-bold">${reg.nombre}</h5>
+                <h5 class="card-title">${reg.nombre}</h5>
                 <h6 class="card-subtitle mb-2"><span class="badge bg-primary">${reg.categoria}</span></h6>
                 <p class="card-text">${reg.descripcion}</p>
                 <button class="btn btn-sm btn-danger w-100" onclick="eliminar(${reg.id})">Eliminar</button>
@@ -89,7 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
     registros = registros.filter(reg => reg.id !== id);
     localStorage.setItem('notas', JSON.stringify(registros));
     renderizar();
-    mensajeValidacion.innerHTML = `<div class="alert alert-warning alert-dismissible fade show" role="alert">Registro eliminado. <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>`;
+    mensajeValidacion.innerHTML = `<div class="alert alert-warning">Registro eliminado.</div>`;
     setTimeout(() => mensajeValidacion.innerHTML = '', 3000);
   }
 
