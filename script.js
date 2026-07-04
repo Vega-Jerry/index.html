@@ -90,7 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
     localStorage.setItem('notas', JSON.stringify(registros));
     renderizar();
     mensajeValidacion.innerHTML = `<div class="alert alert-warning alert-dismissible fade show" role="alert">Registro eliminado. <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>`;
-    setTimeout(() => mensajeValidacion.innerHTML = '', 3001);
+    setTimeout(() => mensajeValidacion.innerHTML = '', 3000);
   }
 
   renderizar();
