@@ -1,272 +1,592 @@
-DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sistema de Notas</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Notas</title>
 
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
-  <!-- CSS Personalizado -->
-  <style>
-    body {
-      font-family: 'Poppins', sans-serif;
-      background-color: #f8f9fa;
-    }
-    .navbar-brand {
-      font-weight: 700;
-    }
-    .hero {
-      background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%);
-      color: white;
-      padding: 60px 0;
-    }
-    .card {
-      border: none;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-      transition: transform 0.3s;
-    }
-    .card:hover {
-      transform: translateY(-5px);
-    }
-    section {
-      padding: 60px 0;
-    }
-    .img-fluid {
-      border-radius: 8px;
-    }
-    footer {
-      background-color: #212529;
-    }
-  </style>
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-  
-  <!-- HEADER + NAV RESPONSIVO -->
-  <header>
+
+<!-- ===================================================== -->
+<!-- FUTURA PLANTILLA FLASK -->
+<!-- Archivo principal: base.html -->
+<!-- ===================================================== -->
+
+<!-- include: header.html -->
+
+<header>
+
+    <!-- include: navbar.html -->
+
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
-      <div class="container">
-        <a class="navbar-brand" href="#inicio">Sistema de Notas</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuNav">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="menuNav">
-          <ul class="navbar-nav ms-auto">
-            <li class="nav-item"><a class="nav-link" href="#inicio">Inicio</a></li>
-            <li class="nav-item"><a class="nav-link" href="#quienes-somos">Quiénes Somos</a></li>
-            <li class="nav-item"><a class="nav-link" href="#servicios">Servicios</a></li>
-            <li class="nav-item"><a class="nav-link" href="#gestion-notas">Gestión</a></li>
-            <li class="nav-item"><a class="nav-link" href="#contacto">Contacto</a></li>
-          </ul>
+        <div class="container">
+
+            <a class="navbar-brand" href="#inicio">
+                Sistema de Notas
+            </a>
+
+            <button class="navbar-toggler"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#menuNav">
+
+                <span class="navbar-toggler-icon"></span>
+
+            </button>
+
+            <div class="collapse navbar-collapse" id="menuNav">
+
+                <ul class="navbar-nav ms-auto">
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#inicio">Inicio</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#quienes-somos">
+                            Quiénes Somos
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#servicios">
+                            Servicios
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#gestion-notas">
+                            Gestión
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contacto">
+                            Contacto
+                        </a>
+                    </li>
+
+                </ul>
+
+            </div>
+
         </div>
-      </div>
     </nav>
-  </header>
 
-  <main>
-    <!-- SECCIÓN INICIO -->
-    <section id="inicio" class="hero mt-5">
-      <div class="container text-center">
-        <h1 class="display-4 fw-bold">Sistema de Notas</h1>
-        <p class="lead">Plataforma web que facilita el registro de calificaciones por parte de docentes y la consulta inmediata de notas por estudiantes desde cualquier dispositivo.</p>
-        <a href="#gestion-notas" class="btn btn-light btn-lg mt-3">Ir a Gestión</a>
-      </div>
+</header>
+
+<!-- block content -->
+
+<main>
+
+    <!-- HERO -->
+
+    <section id="inicio" class="hero">
+
+        <div class="container text-center">
+
+            <h1 class="display-4 fw-bold">
+                Sistema de Notas
+            </h1>
+
+            <p class="lead">
+
+                Plataforma web que permite registrar y administrar
+                calificaciones de estudiantes de forma rápida,
+                organizada y segura.
+
+            </p>
+
+            <h4 id="contadorGeneral" class="mt-3"></h4>
+
+            <a href="#gestion-notas"
+               class="btn btn-light btn-lg mt-3">
+
+                Ir a Gestión
+
+            </a>
+
+        </div>
+
     </section>
 
-    <!-- SECCIÓN QUIÉNES SOMOS -->
+    <!-- QUIÉNES SOMOS -->
+
     <section id="quienes-somos">
-      <div class="container">
-        <div class="row align-items-center">
-          <div class="col-lg-6 mb-4 mb-lg-0">
-            <h2 class="fw-bold mb-3">Quiénes Somos</h2>
-            <p>
-              Sistema de notas es un proyecto desarrollado con el objetivo de modernizar y digitalizar la gestión académica de calificaciones.
-            </p>
-            <p>
-              El sistema está diseñado para ser intuitivo tanto para docentes al momento de registrar notas, como para estudiantes al consultar su rendimiento académico.
-            </p>
-          </div>
-          <div class="col-lg-6">
-            <img src="Sistemas de Notas.jpg" alt="Estudiantes usando el sistema de notas" class="img-fluid shadow">
-          </div>
+
+        <div class="container">
+
+            <div class="row align-items-center">
+
+                <div class="col-lg-6">
+
+                    <h2 class="fw-bold mb-3">
+
+                        Quiénes Somos
+
+                    </h2>
+
+                    <p>
+
+                        Sistema de Notas es un proyecto académico
+                        desarrollado para facilitar el registro,
+                        consulta y administración de calificaciones
+                        mediante una aplicación web responsiva.
+
+                    </p>
+
+                    <p>
+
+                        La aplicación está preparada para una futura
+                        integración con Flask y bases de datos.
+
+                    </p>
+
+                </div>
+
+                <div class="col-lg-6">
+
+                    <img src="Sistemas de Notas.jpg"
+                         class="img-fluid shadow"
+                         alt="Sistema de Notas">
+
+                </div>
+
+            </div>
+
         </div>
-      </div>
+
     </section>
 
-    <!-- SECCIÓN SERVICIOS -->
+    <!-- SERVICIOS -->
+
     <section id="servicios" class="bg-light">
-      <div class="container">
-        <h2 class="text-center fw-bold mb-5">Servicios</h2>
-        
-        <!-- TARJETAS DE SERVICIOS -->
-        <div class="row g-4 mb-5">
-          <div class="col-md-6 col-lg-3">
-            <div class="card h-100 text-center p-3">
-              <div class="card-body">
-                <h5 class="card-title">Registro de Notas</h5>
-                <p class="card-text">Registro de calificaciones por asignatura y parcial</p>
-              </div>
+
+        <div class="container">
+
+            <h2 class="text-center fw-bold mb-5">
+
+                Servicios
+
+            </h2>
+
+            <!-- Contenido generado desde JavaScript -->
+
+            <div id="listaServicios" class="row g-4">
+
             </div>
-          </div>
-          <div class="col-md-6 col-lg-3">
-            <div class="card h-100 text-center p-3">
-              <div class="card-body">
-                <h5 class="card-title">Consulta Estudiantil</h5>
-                <p class="card-text">Consulta de notas y promedios para estudiantes</p>
-              </div>
+
+            <hr class="my-5">
+
+            <h3 class="fw-bold">
+
+                Ejemplo de Tabla
+
+            </h3>
+                        <div class="table-responsive">
+
+                <table class="table table-bordered table-hover">
+
+                    <thead class="table-primary">
+
+                        <tr>
+
+                            <th>Estudiante</th>
+                            <th>Asignatura</th>
+                            <th>Parcial 1</th>
+                            <th>Parcial 2</th>
+                            <th>Promedio</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        <tr>
+
+                            <td>Carlos Méndez</td>
+                            <td>Programación Web</td>
+                            <td>9.0</td>
+                            <td>8.5</td>
+                            <td>
+                                <span class="badge bg-success">
+                                    8.75
+                                </span>
+                            </td>
+
+                        </tr>
+
+                        <tr>
+
+                            <td>Ana Torres</td>
+                            <td>Base de Datos</td>
+                            <td>8.5</td>
+                            <td>9.5</td>
+                            <td>
+                                <span class="badge bg-success">
+                                    9.00
+                                </span>
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
             </div>
-          </div>
-          <div class="col-md-6 col-lg-3">
-            <div class="card h-100 text-center p-3">
-              <div class="card-body">
-                <h5 class="card-title">Reportes PDF</h5>
-                <p class="card-text">Generación automática de reportes académicos</p>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6 col-lg-3">
-            <div class="card h-100 text-center p-3">
-              <div class="card-body">
-                <h5 class="card-title">Cálculo Automático</h5>
-                <p class="card-text">Cálculo instantáneo de promedios finales</p>
-              </div>
-            </div>
-          </div>
+
         </div>
 
-        <!-- TABLA RESPONSIVA -->
-        <h3 class="fw-bold mb-3">Ejemplo de Tabla de Notas</h3>
-        <div class="table-responsive">
-          <table class="table table-striped table-hover table-bordered">
-            <thead class="table-primary">
-              <tr>
-                <th>Estudiante</th>
-                <th>Asignatura</th>
-                <th>Parcial 1</th>
-                <th>Parcial 2</th>
-                <th>Promedio</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Carlos Méndez</td>
-                <td>Programación Web</td>
-                <td>9.0</td>
-                <td>8.5</td>
-                <td><span class="badge bg-success">8.75</span></td>
-              </tr>
-              <tr>
-                <td>Ana Torres</td>
-                <td>Base de Datos</td>
-                <td>8.5</td>
-                <td>9.5</td>
-                <td><span class="badge bg-success">9.00</span></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
     </section>
 
-    <!-- SECCIÓN DINÁMICA -->
+    <!-- GESTIÓN DINÁMICA -->
+
     <section id="gestion-notas">
-      <div class="container">
-        <div class="row justify-content-center">
-          <div class="col-lg-8">
-            <h2 class="fw-bold mb-4 text-center">Gestión dinámica de notas</h2>
 
-            <div id="mensajeValidacion" class="mb-3"></div>
+        <div class="container">
 
-            <form id="notaForm" class="card p-4 mb-4" novalidate>
-              <div class="row g-3">
-                <div class="col-md-4">
-                  <label for="nombre" class="form-label">Nombre</label>
-                  <input type="text" id="nombre" class="form-control" placeholder="Ej. Ana Torres">
+            <div class="row justify-content-center">
+
+                <div class="col-lg-8">
+
+                    <h2 class="text-center fw-bold mb-4">
+
+                        Gestión dinámica de notas
+
+                    </h2>
+
+                    <div id="mensajeValidacion"></div>
+
+                    <form id="notaForm"
+                          class="card p-4 mb-4"
+                          novalidate>
+
+                        <div class="row g-3">
+
+                            <div class="col-md-4">
+
+                                <label class="form-label">
+
+                                    Nombre
+
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="nombre"
+                                    class="form-control"
+                                    placeholder="Nombre del estudiante">
+
+                                <div class="invalid-feedback"></div>
+
+                            </div>
+
+                            <div class="col-md-4">
+
+                                <label class="form-label">
+
+                                    Descripción
+
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="descripcion"
+                                    class="form-control"
+                                    placeholder="Descripción">
+
+                                <div class="invalid-feedback"></div>
+
+                            </div>
+
+                            <div class="col-md-4">
+
+                                <label class="form-label">
+
+                                    Categoría
+
+                                </label>
+
+                                <select
+                                    id="categoria"
+                                    class="form-select">
+
+                                    <option value="">
+
+                                        Seleccione...
+
+                                    </option>
+
+                                    <option>
+
+                                        Parcial 1
+
+                                    </option>
+
+                                    <option>
+
+                                        Parcial 2
+
+                                    </option>
+
+                                    <option>
+
+                                        Examen Final
+
+                                    </option>
+
+                                </select>
+
+                                <div class="invalid-feedback"></div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="mt-4">
+
+                            <button
+                                class="btn btn-primary"
+                                type="submit">
+
+                                Agregar Registro
+
+                            </button>
+
+                            <button
+                                class="btn btn-secondary"
+                                type="reset">
+
+                                Limpiar
+
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                    <div
+                        class="d-flex justify-content-between align-items-center mb-3">
+
+                        <h4>
+
+                            Registros
+
+                        </h4>
+
+                        <span
+                            id="totalRegistros"
+                            class="badge bg-dark">
+
+                            Total: 0
+
+                        </span>
+
+                    </div>
+
+                    <!-- CONTENIDO DINÁMICO -->
+
+                    <div
+                        id="listaRegistros"
+                        class="row g-3">
+
+                    </div>
+
                 </div>
-                <div class="col-md-4">
-                  <label for="descripcion" class="form-label">Descripción</label>
-                  <input type="text" id="descripcion" class="form-control" placeholder="Ej. Nota del primer parcial">
-                </div>
-                <div class="col-md-4">
-                  <label for="categoria" class="form-label">Categoría o tipo</label>
-                  <select id="categoria" class="form-select">
-                    <option value="">Seleccione...</option>
-                    <option value="Parcial 1">Parcial 1</option>
-                    <option value="Parcial 2">Parcial 2</option>
-                    <option value="Examen Final">Examen Final</option>
-                  </select>
-                </div>
-              </div>
 
-              <div class="mt-3 d-grid d-md-flex gap-2">
-                <button type="submit" class="btn btn-primary">Agregar registro</button>
-                <button type="reset" class="btn btn-outline-secondary">Limpiar</button>
-              </div>
-            </form>
-
-            <div class="d-flex justify-content-between align-items-center mb-3">
-              <h3 class="h5 mb-0">Registros creados</h3>
-              <span id="totalRegistros" class="badge bg-dark">Total: 0</span>
             </div>
 
-            <div id="listaRegistros" class="row g-3"></div>
-          </div>
         </div>
-      </div>
-    </section>
 
-    <!-- SECCIÓN CONTACTO + ASIDE -->
+    </section>
+        <!-- CONTACTO -->
+
     <section id="contacto">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-8">
-            <h2 class="fw-bold mb-4">Contacto</h2>
-            <ul class="list-unstyled">
-              <li class="mb-2"><strong>Correo:</strong> <a href="mailto:jerryjavierv@gmail.com">jerryjavierv@gmail.com</a></li>
-              <li class="mb-2"><strong>Teléfono:</strong> 0990323383</li>
-              <li class="mb-2"><strong>Dirección:</strong> Km 84 vía Esmeraldas-Quinindé, Esmeraldas - Ecuador</li>
-              <li class="mb-2"><strong>Redes:</strong> 
-                <a href="https://facebook.com" target="_blank" class="btn btn-outline-primary btn-sm">Facebook</a>
-                <a href="https://instagram.com" target="_blank" class="btn btn-outline-danger btn-sm">Instagram</a>
-              </li>
-            </ul>
-          </div>
-          <div class="col-lg-4">
-            <aside class="bg-light p-4 rounded">
-              <h3 class="h5 fw-bold">Información Complementaria</h3>
-              <p><strong>Soporte técnico:</strong> Lunes a Viernes 8:00-16:00</p>
-              <p><strong>Importante:</strong> Usa tu correo institucional para acceder al sistema</p>
-            </aside>
-          </div>
-        </div>
 
-        <div class="row mt-5">
-          <div class="col-12">
-            <h3 class="fw-bold mb-3">Aprende HTML</h3>
-            <div class="ratio ratio-16x9">
-              <iframe src="https://www.youtube.com/embed/QSO1UXRLvHw?si=CHreSe6jlwgR-Sg6" title="YouTube video player" allowfullscreen></iframe>
+        <div class="container">
+
+            <div class="row">
+
+                <div class="col-lg-8">
+
+                    <h2 class="fw-bold mb-4">
+                        Contacto
+                    </h2>
+
+                    <ul class="list-unstyled">
+
+                        <li class="mb-3">
+                            <strong>Correo:</strong>
+                            jerryjavierv@gmail.com
+                        </li>
+
+                        <li class="mb-3">
+                            <strong>Teléfono:</strong>
+                            0990323383
+                        </li>
+
+                        <li class="mb-3">
+                            <strong>Dirección:</strong>
+                            Esmeraldas - Ecuador
+                        </li>
+
+                        <li class="mb-3">
+
+                            <strong>Redes Sociales</strong>
+
+                            <br><br>
+
+                            <a href="https://facebook.com"
+                               target="_blank"
+                               class="btn btn-outline-primary btn-sm">
+
+                                Facebook
+
+                            </a>
+
+                            <a href="https://instagram.com"
+                               target="_blank"
+                               class="btn btn-outline-danger btn-sm">
+
+                                Instagram
+
+                            </a>
+
+                        </li>
+
+                    </ul>
+
+                </div>
+
+                <div class="col-lg-4">
+
+                    <aside class="bg-light rounded p-4 shadow">
+
+                        <h4>
+
+                            Información
+
+                        </h4>
+
+                        <hr>
+
+                        <p>
+
+                            Atención:
+
+                            <br>
+
+                            Lunes a Viernes
+
+                            <br>
+
+                            08:00 - 16:00
+
+                        </p>
+
+                        <p>
+
+                            Utilice su correo institucional
+                            para acceder al sistema.
+
+                        </p>
+
+                    </aside>
+
+                </div>
+
             </div>
-          </div>
+
+            <div class="row mt-5">
+
+                <div class="col-12">
+
+                    <h3 class="fw-bold mb-3">
+
+                        Aprende HTML
+
+                    </h3>
+
+                    <div class="ratio ratio-16x9">
+
+                        <iframe
+                            src="https://www.youtube.com/embed/QSO1UXRLvHw"
+                            title="Video HTML"
+                            allowfullscreen>
+
+                        </iframe>
+
+                    </div>
+
+                </div>
+
+            </div>
+
         </div>
-      </div>
+
     </section>
-  </main>
 
-  <!-- FOOTER -->
-  <footer class="text-white text-center py-4">
+</main>
+
+<!-- endblock -->
+
+<!-- include: footer.html -->
+
+<footer class="bg-dark text-white text-center py-4">
+
     <div class="container">
-      <p class="mb-0">Jerry Javier Vega Castillo | Programación Web | Universidad Estatal Amazónica | 2026</p>
+
+        <p class="mb-1">
+
+            <strong>
+                Sistema de Notas
+            </strong>
+
+        </p>
+
+        <p class="mb-1">
+
+            Proyecto Integrador - Desarrollo de Aplicaciones Web
+
+        </p>
+
+        <p class="mb-0">
+
+            Jerry Javier Vega Castillo
+
+            <br>
+
+            Universidad Estatal Amazónica
+
+            <br>
+
+            2026
+
+        </p>
+
     </div>
-  </footer>
 
-  <!-- Bootstrap JS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</footer>
 
-  <!-- JavaScript externo -->
-  <script src="script.js"></script>
+<!-- Bootstrap -->
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- JavaScript -->
+
+<script src="script.js"></script>
+
 </body>
 </html>
