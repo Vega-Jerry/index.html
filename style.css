@@ -2,34 +2,68 @@
    ESTILOS GENERALES
 =========================================== */
 
-body {
-    font-family: 'Poppins', sans-serif;
-    background-color: #f8f9fa;
-    padding-top: 70px;
+body{
+    font-family:'Poppins',sans-serif;
+    background:#f8f9fa;
+    padding-top:70px;
+    scroll-behavior:smooth;
 }
 
-.navbar-brand {
-    font-weight: 700;
+/* ===========================================
+   NAVBAR
+=========================================== */
+
+.navbar{
+    box-shadow:0 3px 10px rgba(0,0,0,.15);
+}
+
+.navbar-brand{
+    font-weight:700;
+    letter-spacing:.5px;
+}
+
+.nav-link{
+    transition:.3s;
+}
+
+.nav-link:hover{
+    color:#ffc107 !important;
 }
 
 /* ===========================================
    HERO
 =========================================== */
 
-.hero {
-    background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%);
-    color: white;
-    padding: 70px 0;
+.hero{
+
+    background:linear-gradient(135deg,#0d6efd,#0a58ca);
+
+    color:white;
+
+    padding:90px 0;
+
 }
 
-.hero h1 {
-    font-weight: 700;
+.hero h1{
+
+    font-weight:700;
+
+}
+
+.hero .btn{
+
+    font-weight:600;
+
 }
 
 #contadorGeneral{
+
     font-size:1.2rem;
+
     font-weight:600;
+
     margin-top:15px;
+
 }
 
 /* ===========================================
@@ -37,7 +71,9 @@ body {
 =========================================== */
 
 section{
-    padding:60px 0;
+
+    padding:70px 0;
+
 }
 
 /* ===========================================
@@ -45,18 +81,29 @@ section{
 =========================================== */
 
 .card{
+
     border:none;
-    border-radius:12px;
-    box-shadow:0 5px 12px rgba(0,0,0,.12);
-    transition:.3s;
+
+    border-radius:15px;
+
+    box-shadow:0 5px 15px rgba(0,0,0,.10);
+
+    transition:.35s;
+
 }
 
 .card:hover{
-    transform:translateY(-5px);
+
+    transform:translateY(-8px);
+
+    box-shadow:0 12px 20px rgba(0,0,0,.18);
+
 }
 
-#listaServicios .card{
-    height:100%;
+.card-title{
+
+    font-weight:600;
+
 }
 
 /* ===========================================
@@ -64,7 +111,9 @@ section{
 =========================================== */
 
 .img-fluid{
-    border-radius:10px;
+
+    border-radius:12px;
+
 }
 
 /* ===========================================
@@ -72,15 +121,25 @@ section{
 =========================================== */
 
 .table{
+
     background:#fff;
+
+    border-radius:10px;
+
+    overflow:hidden;
+
 }
 
 .table th{
+
     text-align:center;
+
 }
 
 .table td{
+
     vertical-align:middle;
+
 }
 
 /* ===========================================
@@ -88,12 +147,43 @@ section{
 =========================================== */
 
 form.card{
-    border-radius:15px;
+
+    border-radius:18px;
+
+}
+
+.form-control,
+
+.form-select{
+
+    border-radius:10px;
+
 }
 
 .form-control:focus,
+
 .form-select:focus{
-    box-shadow:none;
+
+    box-shadow:0 0 0 .20rem rgba(13,110,253,.20);
+
+}
+
+/* ===========================================
+   BOTONES
+=========================================== */
+
+.btn{
+
+    border-radius:10px;
+
+    transition:.3s;
+
+}
+
+.btn:hover{
+
+    transform:translateY(-2px);
+
 }
 
 /* ===========================================
@@ -101,16 +191,77 @@ form.card{
 =========================================== */
 
 .is-valid{
+
     border-color:#198754 !important;
+
 }
 
 .is-invalid{
+
     border-color:#dc3545 !important;
+
 }
 
 .invalid-feedback{
+
     display:block;
-    font-size:.9rem;
+
+    font-size:.90rem;
+
+}
+
+/* ===========================================
+   ALERTAS
+=========================================== */
+
+.alert{
+
+    border-radius:10px;
+
+    animation:fade .4s;
+
+}
+
+/* ===========================================
+   SPINNER
+=========================================== */
+
+#spinnerCarga{
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    justify-content:center;
+
+}
+
+.spinner-border{
+
+    width:3rem;
+
+    height:3rem;
+
+}
+
+/* ===========================================
+   MODAL
+=========================================== */
+
+.modal-content{
+
+    border-radius:15px;
+
+}
+
+.modal-header{
+
+    border-top-left-radius:15px;
+
+    border-top-right-radius:15px;
+
 }
 
 /* ===========================================
@@ -118,7 +269,9 @@ form.card{
 =========================================== */
 
 .badge{
-    font-size:.9rem;
+
+    font-size:.90rem;
+
 }
 
 /* ===========================================
@@ -126,9 +279,13 @@ form.card{
 =========================================== */
 
 aside{
-    background:#ffffff;
-    border-radius:12px;
-    box-shadow:0 0 15px rgba(0,0,0,.08);
+
+    background:#fff;
+
+    border-radius:15px;
+
+    box-shadow:0 5px 15px rgba(0,0,0,.08);
+
 }
 
 /* ===========================================
@@ -136,29 +293,79 @@ aside{
 =========================================== */
 
 footer{
+
     background:#212529;
+
 }
 
 footer p{
+
     margin-bottom:5px;
+
+}
+
+/* ===========================================
+   ANIMACIONES
+=========================================== */
+
+@keyframes fade{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(-10px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
 }
 
 /* ===========================================
    RESPONSIVE
 =========================================== */
 
+@media(max-width:992px){
+
+.hero{
+
+    padding:70px 0;
+
+}
+
+}
+
 @media(max-width:768px){
 
 .hero{
-    padding:50px 0;
+
+    padding:55px 0;
+
 }
 
 .hero h1{
+
     font-size:2rem;
+
 }
 
 section{
-    padding:45px 0;
+
+    padding:50px 0;
+
+}
+
+.card{
+
+    margin-bottom:15px;
+
 }
 
 }

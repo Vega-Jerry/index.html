@@ -15,6 +15,21 @@ document.addEventListener("DOMContentLoaded", () => {
     const contadorGeneral = document.getElementById("contadorGeneral");
     const listaServicios = document.getElementById("listaServicios");
 
+    // Spinner Bootstrap
+
+    const spinner = document.getElementById("spinnerCarga");
+
+    // Modal Bootstrap
+
+    const modalEliminar = new bootstrap.Modal(
+        document.getElementById("modalEliminar")
+    );
+
+    const btnConfirmarEliminar =
+        document.getElementById("btnConfirmarEliminar");
+
+    let idEliminar = null;
+
     // ===========================
     // SERVICIOS DINÁMICOS
     // ===========================
@@ -53,16 +68,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
             <div class="col-md-6 col-lg-3">
 
-                <div class="card h-100 text-center p-3">
+                <div class="card h-100 shadow">
 
-                    <div class="card-body">
+                    <div class="card-body text-center">
 
                         <h5 class="card-title">
+
                             ${servicio.titulo}
+
                         </h5>
 
                         <p class="card-text">
+
                             ${servicio.descripcion}
+
                         </p>
 
                     </div>
@@ -139,7 +158,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         setValid(nombre);
-
         return true;
 
     }
@@ -163,7 +181,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         setValid(descripcion);
-
         return true;
 
     }
@@ -178,7 +195,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         setValid(categoria);
-
         return true;
 
     }
@@ -188,7 +204,7 @@ document.addEventListener("DOMContentLoaded", () => {
     categoria.addEventListener("change", validarCategoria);
 
     // ===========================
-    // REGISTRAR
+    // REGISTRO CON SPINNER
     // ===========================
 
     form.addEventListener("submit", (e) => {
@@ -201,54 +217,91 @@ document.addEventListener("DOMContentLoaded", () => {
             validarCategoria()
         ) {
 
-            const nuevo = {
+            spinner.classList.remove("d-none");
+                        setTimeout(() => {
 
-                id: Date.now(),
+                spinner.classList.add("d-none");
 
-                nombre: nombre.value.trim(),
+                const nuevo = {
 
-                descripcion: descripcion.value.trim(),
+                    id: Date.now(),
 
-                categoria: categoria.value,
+                    nombre: nombre.value.trim(),
 
-                fecha: new Date().toLocaleDateString()
+                    descripcion: descripcion.value.trim(),
 
-            };
+                    categoria: categoria.value,
 
-            registros.push(nuevo);
+                    fecha: new Date().toLocaleDateString()
 
-            localStorage.setItem(
-                "notas",
-                JSON.stringify(registros)
-            );
+                };
 
-            renderizar();
+                registros.push(nuevo);
 
-            mensajeValidacion.innerHTML =
+                localStorage.setItem(
+                    "notas",
+                    JSON.stringify(registros)
+                );
 
-                `<div class="alert alert-success">
+                renderizar();
 
-                    Registro guardado correctamente.
+                mensajeValidacion.innerHTML = `
 
-                </div>`;
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
 
-            form.reset();
+                    <strong>¡Éxito!</strong> Registro guardado correctamente.
 
-            nombre.classList.remove("is-valid");
-            descripcion.classList.remove("is-valid");
-            categoria.classList.remove("is-valid");
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="alert">
+                    </button>
+
+                </div>
+
+                `;
+
+                setTimeout(() => {
+
+                    mensajeValidacion.innerHTML = "";
+
+                }, 3000);
+
+                form.reset();
+
+                nombre.classList.remove("is-valid");
+                descripcion.classList.remove("is-valid");
+                categoria.classList.remove("is-valid");
+
+            }, 1500);
 
         }
 
         else {
 
-            mensajeValidacion.innerHTML =
+            mensajeValidacion.innerHTML = `
 
-                `<div class="alert alert-danger">
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
 
-                    Corrija los errores del formulario.
+                <strong>Error.</strong>
 
-                </div>`;
+                Corrija los errores del formulario.
+
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="alert">
+                </button>
+
+            </div>
+
+            `;
+
+            setTimeout(() => {
+
+                mensajeValidacion.innerHTML = "";
+
+            }, 3000);
 
         }
 
@@ -270,17 +323,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (registros.length === 0) {
 
-            lista.innerHTML =
+            lista.innerHTML = `
 
-                `<div class="col-12">
+            <div class="col-12">
 
-                    <div class="alert alert-warning text-center">
+                <div class="alert alert-warning text-center">
 
-                        No existen registros.
+                    No existen registros.
 
-                    </div>
+                </div>
 
-                </div>`;
+            </div>
+
+            `;
 
         }
 
@@ -292,7 +347,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 <div class="col-md-6 col-lg-4">
 
-                    <div class="card h-100 border-primary">
+                    <div class="card h-100 border-primary shadow">
 
                         <div class="card-body">
 
@@ -326,7 +381,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                             <button
                                 class="btn btn-danger w-100"
-                                onclick="eliminar(${reg.id})">
+                                onclick="abrirModal(${reg.id})">
 
                                 Eliminar
 
@@ -343,39 +398,81 @@ document.addEventListener("DOMContentLoaded", () => {
             });
 
         }
+                if (registros.length >= 5) {
 
-        if (registros.length >= 5) {
+            mensajeValidacion.innerHTML = `
 
-            mensajeValidacion.innerHTML =
+            <div class="alert alert-info alert-dismissible fade show" role="alert">
 
-                `<div class="alert alert-info">
+                Ya existen varios registros almacenados.
 
-                    Ya existen varios registros almacenados.
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="alert">
+                </button>
 
-                </div>`;
+            </div>
+
+            `;
 
         }
 
     }
 
     // ===========================
-    // ELIMINAR
+    // MODAL ELIMINAR
     // ===========================
 
-    window.eliminar = function(id) {
+    window.abrirModal = function(id){
 
-        registros =
-            registros.filter(reg => reg.id !== id);
+        idEliminar = id;
+
+        modalEliminar.show();
+
+    };
+
+    btnConfirmarEliminar.addEventListener("click", () => {
+
+        registros = registros.filter(reg => reg.id !== idEliminar);
 
         localStorage.setItem(
             "notas",
             JSON.stringify(registros)
         );
 
+        modalEliminar.hide();
+
         renderizar();
 
-    };
+        mensajeValidacion.innerHTML = `
+
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+
+            Registro eliminado correctamente.
+
+            <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="alert">
+            </button>
+
+        </div>
+
+        `;
+
+        setTimeout(() => {
+
+            mensajeValidacion.innerHTML = "";
+
+        },3000);
+
+    });
+
+    // ===========================
+    // INICIALIZAR
+    // ===========================
 
     renderizar();
 
-});
+});  
