@@ -1,0 +1,181 @@
+{% extends "base.html" %}
+
+{% block title %}Productos{% endblock %}
+
+{% block content %}
+
+<section class="py-5">
+
+    <div class="container">
+
+        <!-- ENCABEZADO -->
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+
+            <div>
+                <h1 class="fw-bold">
+                    Productos
+                </h1>
+
+                <p class="text-muted mb-0">
+                    Gestión de productos de {{ nombre_sistema }}
+                </p>
+            </div>
+
+            <a
+                href="{{ url_for('nuevo_producto') }}"
+                class="btn btn-primary">
+
+                + Nuevo Producto
+
+            </a>
+
+        </div>
+
+
+        <!-- MENSAJES DE FLASK -->
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+
+            {% if messages %}
+
+                {% for category, message in messages %}
+
+                    <div
+                        class="alert alert-{{ category }} alert-dismissible fade show"
+                        role="alert">
+
+                        {{ message }}
+
+                        <button
+                            type="button"
+                            class="btn-close"
+                            data-bs-dismiss="alert">
+                        </button>
+
+                    </div>
+
+                {% endfor %}
+
+            {% endif %}
+
+        {% endwith %}
+
+
+        <!-- TABLA DE PRODUCTOS -->
+
+        <div class="card shadow">
+
+            <div class="card-body">
+
+                <div class="table-responsive">
+
+                    <table class="table table-bordered table-hover align-middle">
+
+                        <thead class="table-primary">
+
+                            <tr>
+
+                                <th>#</th>
+                                <th>Producto</th>
+                                <th>Categoría</th>
+                                <th>Precio</th>
+                                <th>Stock</th>
+                                <th>Estado</th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            {% for producto in productos %}
+
+                            <tr>
+
+                                <td>
+                                    {{ loop.index }}
+                                </td>
+
+                                <td>
+                                    {{ producto.nombre }}
+                                </td>
+
+                                <td>
+                                    {{ producto.categoria|upper }}
+                                </td>
+
+                                <td>
+                                    ${{ "%.2f"|format(producto.precio) }}
+                                </td>
+
+                                <td>
+                                    {{ producto.stock }}
+                                </td>
+
+                                <td>
+
+                                    {% if producto.stock > 0 %}
+
+                                        <span class="badge bg-success">
+                                            Disponible
+                                        </span>
+
+                                    {% else %}
+
+                                        <span class="badge bg-danger">
+                                            Agotado
+                                        </span>
+
+                                    {% endif %}
+
+                                </td>
+
+                            </tr>
+
+                            {% else %}
+
+                            <tr>
+
+                                <td
+                                    colspan="6"
+                                    class="text-center text-muted">
+
+                                    No existen productos registrados.
+
+                                </td>
+
+                            </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- INFORMACIÓN -->
+
+        <div class="mt-4">
+
+            <a
+                href="{{ url_for('inicio') }}"
+                class="btn btn-secondary">
+
+                ← Volver al inicio
+
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

@@ -1,0 +1,515 @@
+{% extends "base.html" %}
+
+{% block title %}Sistema de Notas{% endblock %}
+
+{% block content %}
+
+<!-- ========================= HERO ========================= -->
+
+<section id="inicio" class="hero">
+
+    <div class="container text-center">
+
+        <h1 class="display-4 fw-bold">
+            {{ nombre_sistema }}
+        </h1>
+
+        <p class="lead mt-3">
+            Plataforma web que permite registrar, administrar y consultar
+            calificaciones de estudiantes de manera rápida, organizada y segura.
+        </p>
+
+        <h4 id="contadorGeneral" class="mt-4"></h4>
+
+        <a href="#gestion-notas" class="btn btn-light btn-lg mt-3">
+            Ir a Gestión
+        </a>
+
+    </div>
+
+</section>
+
+
+<!-- ========================= QUIÉNES SOMOS ========================= -->
+
+<section id="quienes-somos">
+
+    <div class="container">
+
+        <div class="row align-items-center">
+
+            <div class="col-lg-6">
+
+                <h2 class="fw-bold mb-4">
+                    Quiénes Somos
+                </h2>
+
+                <p>
+                    Sistema de Notas es una aplicación web desarrollada como
+                    proyecto académico para facilitar el registro,
+                    administración y consulta de calificaciones de estudiantes.
+                </p>
+
+                <p>
+                    La plataforma utiliza HTML, CSS, JavaScript, Bootstrap
+                    y Flask, permitiendo trabajar con contenido dinámico
+                    mediante plantillas Jinja2.
+                </p>
+
+            </div>
+
+            <div class="col-lg-6 text-center">
+
+                <img
+                    src="{{ url_for('static', filename='Sistemas de Notas.jpg') }}"
+                    alt="Sistema de Notas"
+                    class="img-fluid shadow rounded">
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ========================= SERVICIOS ========================= -->
+
+<section id="servicios" class="bg-light">
+
+    <div class="container">
+
+        <h2 class="text-center fw-bold mb-5">
+            Servicios
+        </h2>
+
+        <!-- Cards dinámicas -->
+        <div id="listaServicios" class="row g-4">
+        </div>
+
+        <hr class="my-5">
+
+        <h3 class="fw-bold mb-4">
+            Ejemplo de Tabla
+        </h3>
+
+        <div class="table-responsive">
+
+            <table class="table table-bordered table-hover align-middle">
+
+                <thead class="table-primary">
+
+                    <tr>
+                        <th>Estudiante</th>
+                        <th>Asignatura</th>
+                        <th>Parcial 1</th>
+                        <th>Parcial 2</th>
+                        <th>Promedio</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    <tr>
+                        <td>Carlos Méndez</td>
+                        <td>Programación Web</td>
+                        <td>9.0</td>
+                        <td>8.5</td>
+
+                        <td>
+                            <span class="badge bg-success">
+                                8.75
+                            </span>
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td>Ana Torres</td>
+                        <td>Base de Datos</td>
+                        <td>8.5</td>
+                        <td>9.5</td>
+
+                        <td>
+                            <span class="badge bg-success">
+                                9.00
+                            </span>
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ========================= GESTIÓN ========================= -->
+
+<section id="gestion-notas">
+
+    <div class="container">
+
+        <div class="row justify-content-center">
+
+            <div class="col-lg-8">
+
+                <h2 class="text-center fw-bold mb-4">
+                    Gestión dinámica de notas
+                </h2>
+
+
+                <!-- Alert Bootstrap -->
+
+                <div id="mensajeValidacion"></div>
+
+
+                <!-- Spinner Bootstrap -->
+
+                <div
+                    id="spinnerCarga"
+                    class="text-center my-3 d-none">
+
+                    <div
+                        class="spinner-border text-primary"
+                        role="status">
+
+                        <span class="visually-hidden">
+                            Cargando...
+                        </span>
+
+                    </div>
+
+                    <p class="mt-2">
+                        Procesando información...
+                    </p>
+
+                </div>
+
+
+                <!-- FORMULARIO -->
+
+                <form
+                    id="notaForm"
+                    class="card shadow p-4 mb-4"
+                    novalidate>
+
+                    <div class="row g-3">
+
+                        <div class="col-md-4">
+
+                            <label class="form-label">
+                                Nombre
+                            </label>
+
+                            <input
+                                type="text"
+                                id="nombre"
+                                class="form-control"
+                                placeholder="Nombre del estudiante">
+
+                            <div class="invalid-feedback"></div>
+
+                        </div>
+
+
+                        <div class="col-md-4">
+
+                            <label class="form-label">
+                                Descripción
+                            </label>
+
+                            <input
+                                type="text"
+                                id="descripcion"
+                                class="form-control"
+                                placeholder="Descripción">
+
+                            <div class="invalid-feedback"></div>
+
+                        </div>
+
+
+                        <div class="col-md-4">
+
+                            <label class="form-label">
+                                Categoría
+                            </label>
+
+                            <select
+                                id="categoria"
+                                class="form-select">
+
+                                <option value="">
+                                    Seleccione...
+                                </option>
+
+                                <option value="Parcial 1">
+                                    Parcial 1
+                                </option>
+
+                                <option value="Parcial 2">
+                                    Parcial 2
+                                </option>
+
+                                <option value="Examen Final">
+                                    Examen Final
+                                </option>
+
+                            </select>
+
+                            <div class="invalid-feedback"></div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="mt-4 d-flex gap-2">
+
+                        <button
+                            type="submit"
+                            class="btn btn-primary">
+
+                            Agregar Registro
+
+                        </button>
+
+                        <button
+                            type="reset"
+                            class="btn btn-secondary">
+
+                            Limpiar
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+
+                <!-- CONTADOR -->
+
+                <div
+                    class="d-flex justify-content-between align-items-center mb-3">
+
+                    <h4>
+                        Registros
+                    </h4>
+
+                    <span
+                        id="totalRegistros"
+                        class="badge bg-dark">
+
+                        Total: 0
+
+                    </span>
+
+                </div>
+
+
+                <!-- CARDS DINÁMICAS -->
+
+                <div
+                    id="listaRegistros"
+                    class="row g-3">
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ========================= CONTACTO ========================= -->
+
+<section id="contacto">
+
+    <div class="container">
+
+        <div class="row">
+
+            <div class="col-lg-8">
+
+                <h2 class="fw-bold mb-4">
+                    Contacto
+                </h2>
+
+                <ul class="list-unstyled">
+
+                    <li class="mb-3">
+                        <strong>Correo:</strong>
+                        jerryjavierv@gmail.com
+                    </li>
+
+                    <li class="mb-3">
+                        <strong>Teléfono:</strong>
+                        0990323383
+                    </li>
+
+                    <li class="mb-3">
+                        <strong>Dirección:</strong>
+                        Esmeraldas - Ecuador
+                    </li>
+
+                    <li class="mb-3">
+
+                        <strong>Redes Sociales</strong>
+
+                        <br><br>
+
+                        <a
+                            href="https://facebook.com"
+                            target="_blank"
+                            class="btn btn-outline-primary btn-sm">
+
+                            Facebook
+
+                        </a>
+
+                        <a
+                            href="https://instagram.com"
+                            target="_blank"
+                            class="btn btn-outline-danger btn-sm">
+
+                            Instagram
+
+                        </a>
+
+                    </li>
+
+                </ul>
+
+            </div>
+
+
+            <div class="col-lg-4">
+
+                <aside class="bg-light rounded p-4 shadow">
+
+                    <h4>
+                        Información
+                    </h4>
+
+                    <hr>
+
+                    <p>
+                        Atención:
+                        <br>
+                        Lunes a Viernes
+                        <br>
+                        08:00 - 16:00
+                    </p>
+
+                    <p>
+                        Utilice su correo institucional
+                        para acceder al sistema.
+                    </p>
+
+                </aside>
+
+            </div>
+
+        </div>
+
+
+        <div class="row mt-5">
+
+            <div class="col-12">
+
+                <h3 class="fw-bold mb-3">
+                    Aprende HTML
+                </h3>
+
+                <div class="ratio ratio-16x9">
+
+                    <iframe
+                        src="https://www.youtube.com/embed/QSO1UXRLvHw"
+                        title="Video HTML"
+                        allowfullscreen>
+                    </iframe>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ========================= MODAL ========================= -->
+
+<div
+    class="modal fade"
+    id="modalEliminar"
+    tabindex="-1"
+    aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content">
+
+            <div class="modal-header bg-danger text-white">
+
+                <h5 class="modal-title">
+                    Confirmar eliminación
+                </h5>
+
+                <button
+                    type="button"
+                    class="btn-close btn-close-white"
+                    data-bs-dismiss="modal">
+                </button>
+
+            </div>
+
+
+            <div class="modal-body">
+
+                ¿Está seguro de eliminar este registro?
+
+            </div>
+
+
+            <div class="modal-footer">
+
+                <button
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal">
+
+                    Cancelar
+
+                </button>
+
+                <button
+                    id="btnConfirmarEliminar"
+                    class="btn btn-danger">
+
+                    Sí, eliminar
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+{% endblock %}

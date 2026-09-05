@@ -1,0 +1,176 @@
+{% extends "base.html" %}
+
+{% block title %}Clientes{% endblock %}
+
+{% block content %}
+
+<section class="py-5">
+
+    <div class="container">
+
+        <!-- ENCABEZADO -->
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+
+            <div>
+                <h1 class="fw-bold">
+                    Clientes
+                </h1>
+
+                <p class="text-muted mb-0">
+                    Gestión de clientes de {{ nombre_sistema }}
+                </p>
+            </div>
+
+            <a
+                href="{{ url_for('nuevo_cliente') }}"
+                class="btn btn-primary">
+
+                + Nuevo Cliente
+
+            </a>
+
+        </div>
+
+
+        <!-- MENSAJES DE FLASK -->
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+
+            {% if messages %}
+
+                {% for category, message in messages %}
+
+                    <div
+                        class="alert alert-{{ category }} alert-dismissible fade show"
+                        role="alert">
+
+                        {{ message }}
+
+                        <button
+                            type="button"
+                            class="btn-close"
+                            data-bs-dismiss="alert">
+                        </button>
+
+                    </div>
+
+                {% endfor %}
+
+            {% endif %}
+
+        {% endwith %}
+
+
+        <!-- TABLA DE CLIENTES -->
+
+        <div class="card shadow">
+
+            <div class="card-body">
+
+                <div class="table-responsive">
+
+                    <table class="table table-bordered table-hover align-middle">
+
+                        <thead class="table-primary">
+
+                            <tr>
+
+                                <th>#</th>
+                                <th>Nombre</th>
+                                <th>Correo</th>
+                                <th>Teléfono</th>
+                                <th>Estado</th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            {% for cliente in clientes %}
+
+                            <tr>
+
+                                <td>
+                                    {{ loop.index }}
+                                </td>
+
+                                <td>
+                                    {{ cliente.nombre }}
+                                </td>
+
+                                <td>
+                                    {{ cliente.correo }}
+                                </td>
+
+                                <td>
+                                    {{ cliente.telefono }}
+                                </td>
+
+                                <td>
+
+                                    {% if cliente.estado == "Activo" %}
+
+                                        <span class="badge bg-success">
+                                            Activo
+                                        </span>
+
+                                    {% else %}
+
+                                        <span class="badge bg-danger">
+                                            Inactivo
+                                        </span>
+
+                                    {% endif %}
+
+                                </td>
+
+                            </tr>
+
+                            {% else %}
+
+                            <tr>
+
+                                <td
+                                    colspan="5"
+                                    class="text-center text-muted">
+
+                                    No existen clientes registrados.
+
+                                </td>
+
+                            </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- VOLVER -->
+
+        <div class="mt-4">
+
+            <a
+                href="{{ url_for('inicio') }}"
+                class="btn btn-secondary">
+
+                ← Volver al inicio
+
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}
