@@ -1,4 +1,6 @@
-import sqlite3
+
+import mysql.connector
+
 from flask import Flask, render_template, redirect, url_for, flash
 
 from forms.producto_form import ProductoForm
@@ -13,34 +15,19 @@ app.config["SECRET_KEY"] = "clave-secreta-sistema-notas-2026"
 
 
 # ============================================================
-# CONFIGURACIÓN DE LA BASE DE DATOS
+# CONFIGURACIÓN DE MYSQL
 # ============================================================
 
-DATABASE = "data/ferreteria.db"
-
-
 def obtener_conexion():
-    conn = sqlite3.connect(DATABASE)
-    conn.row_factory = sqlite3.Row
+
+    conn = mysql.connector.connect(
+        host="localhost",
+        user="root",
+        password="2005Agosto.",
+        database="proyecto_web"
+    )
+
     return conn
-
-
-def inicializar_base_datos():
-
-    conn = obtener_conexion()
-
-    conn.execute("""
-        CREATE TABLE IF NOT EXISTS productos (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            nombre TEXT NOT NULL,
-            categoria TEXT NOT NULL,
-            precio REAL NOT NULL,
-            stock INTEGER NOT NULL
-        )
-    """)
-
-    conn.commit()
-    conn.close()
 
 
 # ============================================================
@@ -141,12 +128,17 @@ def productos():
 
     conn = obtener_conexion()
 
-    productos = conn.execute("""
-        SELECT id, nombre, categoria, precio, stock
+    cursor = conn.cursor(dictionary=True)
+
+    cursor.execute("""
+        SELECT id, nombre, descripcion, precio, stock
         FROM productos
         ORDER BY id DESC
-    """).fetchall()
+    """)
 
+    productos = cursor.fetchall()
+
+    cursor.close()
     conn.close()
 
     return render_template(
@@ -169,18 +161,22 @@ def nuevo_producto():
 
         conn = obtener_conexion()
 
-        conn.execute("""
+        cursor = conn.cursor()
+
+        cursor.execute("""
             INSERT INTO productos
-            (nombre, categoria, precio, stock)
-            VALUES (?, ?, ?, ?)
+            (nombre, descripcion, precio, stock)
+            VALUES (%s, %s, %s, %s)
         """, (
             form.nombre.data,
-            form.categoria.data,
+            form.descripcion.data,
             float(form.precio.data),
             form.stock.data
         ))
 
         conn.commit()
+
+        cursor.close()
         conn.close()
 
         flash(
@@ -196,20 +192,38 @@ def nuevo_producto():
         form=form
     )
 
-
 # ============================================================
-# CLIENTES
+# CLIENTES - SELECT
 # ============================================================
 
 @app.route("/clientes")
 def clientes():
 
+    conn = obtener_conexion()
+
+    cursor = conn.cursor(dictionary=True)
+
+    cursor.execute("""
+        SELECT id, nombre, correo, telefono, estado
+        FROM clientes
+        ORDER BY id DESC
+    """)
+
+    clientes = cursor.fetchall()
+
+    cursor.close()
+    conn.close()
+
     return render_template(
         "clientes.html",
         nombre_sistema=nombre_sistema,
-        clientes=clientes_lista
+        clientes=clientes
     )
 
+
+# ============================================================
+# CLIENTES - INSERT
+# ============================================================
 
 @app.route("/clientes/nuevo", methods=["GET", "POST"])
 def nuevo_cliente():
@@ -218,14 +232,25 @@ def nuevo_cliente():
 
     if form.validate_on_submit():
 
-        nuevo = {
-            "nombre": form.nombre.data,
-            "correo": form.correo.data,
-            "telefono": form.telefono.data,
-            "estado": form.estado.data
-        }
+        conn = obtener_conexion()
 
-        clientes_lista.append(nuevo)
+        cursor = conn.cursor()
+
+        cursor.execute("""
+            INSERT INTO clientes
+            (nombre, correo, telefono, estado)
+            VALUES (%s, %s, %s, %s)
+        """, (
+            form.nombre.data,
+            form.correo.data,
+            form.telefono.data,
+            form.estado.data
+        ))
+
+        conn.commit()
+
+        cursor.close()
+        conn.close()
 
         flash(
             "Cliente registrado correctamente.",
@@ -239,21 +264,38 @@ def nuevo_cliente():
         nombre_sistema=nombre_sistema,
         form=form
     )
-
-
 # ============================================================
-# PROVEEDORES
+# PROVEEDORES - SELECT
 # ============================================================
 
 @app.route("/proveedores")
 def proveedores():
 
+    conn = obtener_conexion()
+
+    cursor = conn.cursor(dictionary=True)
+
+    cursor.execute("""
+        SELECT id, nombre, correo, telefono, estado
+        FROM proveedores
+        ORDER BY id DESC
+    """)
+
+    proveedores = cursor.fetchall()
+
+    cursor.close()
+    conn.close()
+
     return render_template(
         "proveedores.html",
         nombre_sistema=nombre_sistema,
-        proveedores=proveedores_lista
+        proveedores=proveedores
     )
 
+
+# ============================================================
+# PROVEEDORES - INSERT
+# ============================================================
 
 @app.route("/proveedores/nuevo", methods=["GET", "POST"])
 def nuevo_proveedor():
@@ -262,14 +304,25 @@ def nuevo_proveedor():
 
     if form.validate_on_submit():
 
-        nuevo = {
-            "nombre": form.nombre.data,
-            "correo": form.correo.data,
-            "telefono": form.telefono.data,
-            "estado": form.estado.data
-        }
+        conn = obtener_conexion()
 
-        proveedores_lista.append(nuevo)
+        cursor = conn.cursor()
+
+        cursor.execute("""
+            INSERT INTO proveedores
+            (nombre, correo, telefono, estado)
+            VALUES (%s, %s, %s, %s)
+        """, (
+            form.nombre.data,
+            form.correo.data,
+            form.telefono.data,
+            form.estado.data
+        ))
+
+        conn.commit()
+
+        cursor.close()
+        conn.close()
 
         flash(
             "Proveedor registrado correctamente.",
@@ -283,21 +336,38 @@ def nuevo_proveedor():
         nombre_sistema=nombre_sistema,
         form=form
     )
-
-
 # ============================================================
-# FACTURACIÓN
+# FACTURACIÓN - SELECT
 # ============================================================
 
 @app.route("/facturacion")
 def facturacion():
 
+    conn = obtener_conexion()
+
+    cursor = conn.cursor(dictionary=True)
+
+    cursor.execute("""
+        SELECT id, numero, cliente, fecha, total, estado
+        FROM facturas
+        ORDER BY id DESC
+    """)
+
+    facturas = cursor.fetchall()
+
+    cursor.close()
+    conn.close()
+
     return render_template(
         "facturacion.html",
         nombre_sistema=nombre_sistema,
-        facturas=facturas_lista
+        facturas=facturas
     )
 
+
+# ============================================================
+# FACTURACIÓN - INSERT
+# ============================================================
 
 @app.route("/facturacion/nueva", methods=["GET", "POST"])
 def nueva_factura():
@@ -306,15 +376,26 @@ def nueva_factura():
 
     if form.validate_on_submit():
 
-        nueva = {
-            "numero": form.numero.data,
-            "cliente": form.cliente.data,
-            "fecha": form.fecha.data.strftime("%d/%m/%Y"),
-            "total": float(form.total.data),
-            "estado": form.estado.data
-        }
+        conn = obtener_conexion()
 
-        facturas_lista.append(nueva)
+        cursor = conn.cursor()
+
+        cursor.execute("""
+            INSERT INTO facturas
+            (numero, cliente, fecha, total, estado)
+            VALUES (%s, %s, %s, %s, %s)
+        """, (
+            form.numero.data,
+            form.cliente.data,
+            form.fecha.data,
+            float(form.total.data),
+            form.estado.data
+        ))
+
+        conn.commit()
+
+        cursor.close()
+        conn.close()
 
         flash(
             "Factura registrada correctamente.",
@@ -328,15 +409,6 @@ def nueva_factura():
         nombre_sistema=nombre_sistema,
         form=form
     )
-
-
-# ============================================================
-# INICIALIZAR BASE DE DATOS
-# ============================================================
-
-inicializar_base_datos()
-
-
 # ============================================================
 # EJECUTAR APLICACIÓN
 # ============================================================
@@ -344,3 +416,4 @@ inicializar_base_datos()
 if __name__ == "__main__":
 
     app.run(debug=True)
+

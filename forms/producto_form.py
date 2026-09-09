@@ -1,5 +1,6 @@
+
 from flask_wtf import FlaskForm
-from wtforms import StringField, DecimalField, IntegerField, SelectField, SubmitField
+from wtforms import StringField, DecimalField, IntegerField, SubmitField
 from wtforms.validators import DataRequired, Length, NumberRange
 
 
@@ -17,16 +18,15 @@ class ProductoForm(FlaskForm):
         ]
     )
 
-    categoria = SelectField(
-        "Categoría",
-        choices=[
-            ("", "Seleccione una categoría"),
-            ("Tecnología", "Tecnología"),
-            ("Accesorios", "Accesorios"),
-            ("Oficina", "Oficina")
-        ],
+    descripcion = StringField(
+        "Descripción",
         validators=[
-            DataRequired(message="Debe seleccionar una categoría.")
+            DataRequired(message="La descripción es obligatoria."),
+            Length(
+                min=2,
+                max=255,
+                message="La descripción debe tener entre 2 y 255 caracteres."
+            )
         ]
     )
 
