@@ -1,72 +1,58 @@
 {% extends "base.html" %}
 
-{% block title %}Productos{% endblock %}
-
 {% block content %}
 
-<section class="py-5">
+<div class="container mt-4">
 
-    <div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
 
-        <!-- ENCABEZADO -->
-
-        <div class="d-flex justify-content-between align-items-center mb-4">
-
-            <div>
-                <h1 class="fw-bold">
-                    Productos
-                </h1>
-
-                <p class="text-muted mb-0">
-                    Gestión de productos de {{ nombre_sistema }}
-                </p>
-            </div>
-
-            <a
-                href="{{ url_for('nuevo_producto') }}"
-                class="btn btn-primary">
-
-                + Nuevo Producto
-
-            </a>
-
+        <div>
+            <h2>Productos</h2>
+            <p class="text-muted mb-0">
+                Gestión de productos registrados
+            </p>
         </div>
 
+        <a
+            href="{{ url_for('nuevo_producto') }}"
+            class="btn btn-primary"
+        >
+            + Nuevo producto
+        </a>
 
-        <!-- MENSAJES DE FLASK -->
-
-        {% with messages = get_flashed_messages(with_categories=true) %}
-
-            {% if messages %}
-
-                {% for category, message in messages %}
-
-                    <div
-                        class="alert alert-{{ category }} alert-dismissible fade show"
-                        role="alert">
-
-                        {{ message }}
-
-                        <button
-                            type="button"
-                            class="btn-close"
-                            data-bs-dismiss="alert">
-                        </button>
-
-                    </div>
-
-                {% endfor %}
-
-            {% endif %}
-
-        {% endwith %}
+    </div>
 
 
-        <!-- TABLA DE PRODUCTOS -->
+    {% with mensajes = get_flashed_messages(with_categories=true) %}
 
-        <div class="card shadow">
+        {% if mensajes %}
 
-            <div class="card-body">
+            {% for categoria, mensaje in mensajes %}
+
+                <div class="alert alert-{{ categoria }} alert-dismissible fade show">
+
+                    {{ mensaje }}
+
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="alert"
+                    ></button>
+
+                </div>
+
+            {% endfor %}
+
+        {% endif %}
+
+    {% endwith %}
+
+
+    <div class="card shadow">
+
+        <div class="card-body">
+
+            {% if productos %}
 
                 <div class="table-responsive">
 
@@ -75,14 +61,12 @@
                         <thead class="table-primary">
 
                             <tr>
-
-                                <th>#</th>
-                                <th>Producto</th>
+                                <th>ID</th>
+                                <th>Nombre</th>
                                 <th>Descripción</th>
                                 <th>Precio</th>
                                 <th>Stock</th>
-                                <th>Estado</th>
-
+                                <th>Acciones</th>
                             </tr>
 
                         </thead>
@@ -91,61 +75,59 @@
 
                             {% for producto in productos %}
 
-                            <tr>
+                                <tr>
 
-                                <td>
-                                    {{ loop.index }}
-                                </td>
+                                    <td>
+                                        {{ producto.id }}
+                                    </td>
 
-                                <td>
-                                    {{ producto.nombre }}
-                                </td>
+                                    <td>
+                                        {{ producto.nombre }}
+                                    </td>
 
-                                <td>
-                                    {{ producto.descripcion }}
-                                </td>
+                                    <td>
+                                        {{ producto.descripcion }}
+                                    </td>
 
-                                <td>
-                                    ${{ "%.2f"|format(producto.precio) }}
-                                </td>
+                                    <td>
+                                        ${{ "%.2f"|format(producto.precio) }}
+                                    </td>
 
-                                <td>
-                                    {{ producto.stock }}
-                                </td>
+                                    <td>
+                                        {{ producto.stock }}
+                                    </td>
 
-                                <td>
+                                    <td>
 
-                                    {% if producto.stock > 0 %}
+                                        <div class="d-flex gap-2">
 
-                                        <span class="badge bg-success">
-                                            Disponible
-                                        </span>
+                                            <a
+                                                href="{{ url_for('editar_producto', id=producto.id) }}"
+                                                class="btn btn-sm btn-warning"
+                                            >
+                                                Editar
+                                            </a>
 
-                                    {% else %}
+                                            <form
+                                                method="POST"
+                                                action="{{ url_for('eliminar_producto', id=producto.id) }}"
+                                                onsubmit="return confirm('¿Seguro que deseas eliminar este producto?');"
+                                            >
 
-                                        <span class="badge bg-danger">
-                                            Agotado
-                                        </span>
+                                                <button
+                                                    type="submit"
+                                                    class="btn btn-sm btn-danger"
+                                                >
+                                                    Eliminar
+                                                </button>
 
-                                    {% endif %}
+                                            </form>
 
-                                </td>
+                                        </div>
 
-                            </tr>
+                                    </td>
 
-                            {% else %}
-
-                            <tr>
-
-                                <td
-                                    colspan="6"
-                                    class="text-center text-muted">
-
-                                    No existen productos registrados.
-
-                                </td>
-
-                            </tr>
+                                </tr>
 
                             {% endfor %}
 
@@ -155,27 +137,18 @@
 
                 </div>
 
-            </div>
+            {% else %}
 
-        </div>
+                <div class="alert alert-info mb-0">
+                    No hay productos registrados.
+                </div>
 
-
-        <!-- INFORMACIÓN -->
-
-        <div class="mt-4">
-
-            <a
-                href="{{ url_for('inicio') }}"
-                class="btn btn-secondary">
-
-                ← Volver al inicio
-
-            </a>
+            {% endif %}
 
         </div>
 
     </div>
 
-</section>
+</div>
 
 {% endblock %}

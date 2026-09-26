@@ -1,72 +1,32 @@
 {% extends "base.html" %}
 
-{% block title %}Proveedores{% endblock %}
-
 {% block content %}
 
-<section class="py-5">
+<div class="container mt-4">
 
-    <div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
 
-        <!-- ENCABEZADO -->
-
-        <div class="d-flex justify-content-between align-items-center mb-4">
-
-            <div>
-                <h1 class="fw-bold">
-                    Proveedores
-                </h1>
-
-                <p class="text-muted mb-0">
-                    Gestión de proveedores de {{ nombre_sistema }}
-                </p>
-            </div>
-
-            <a
-                href="{{ url_for('nuevo_proveedor') }}"
-                class="btn btn-primary">
-
-                + Nuevo Proveedor
-
-            </a>
-
+        <div>
+            <h2>Proveedores</h2>
+            <p class="text-muted mb-0">
+                Gestión de proveedores registrados
+            </p>
         </div>
 
+        <a
+            href="{{ url_for('nuevo_proveedor') }}"
+            class="btn btn-primary"
+        >
+            + Nuevo proveedor
+        </a>
 
-        <!-- MENSAJES DE FLASK -->
+    </div>
 
-        {% with messages = get_flashed_messages(with_categories=true) %}
+    <div class="card shadow">
 
-            {% if messages %}
+        <div class="card-body">
 
-                {% for category, message in messages %}
-
-                    <div
-                        class="alert alert-{{ category }} alert-dismissible fade show"
-                        role="alert">
-
-                        {{ message }}
-
-                        <button
-                            type="button"
-                            class="btn-close"
-                            data-bs-dismiss="alert">
-                        </button>
-
-                    </div>
-
-                {% endfor %}
-
-            {% endif %}
-
-        {% endwith %}
-
-
-        <!-- TABLA DE PROVEEDORES -->
-
-        <div class="card shadow">
-
-            <div class="card-body">
+            {% if proveedores %}
 
                 <div class="table-responsive">
 
@@ -75,13 +35,12 @@
                         <thead class="table-primary">
 
                             <tr>
-
-                                <th>#</th>
+                                <th>ID</th>
                                 <th>Nombre</th>
                                 <th>Correo</th>
                                 <th>Teléfono</th>
                                 <th>Estado</th>
-
+                                <th>Acciones</th>
                             </tr>
 
                         </thead>
@@ -90,57 +49,65 @@
 
                             {% for proveedor in proveedores %}
 
-                            <tr>
+                                <tr>
 
-                                <td>
-                                    {{ loop.index }}
-                                </td>
+                                    <td>{{ proveedor.id }}</td>
 
-                                <td>
-                                    {{ proveedor.nombre }}
-                                </td>
+                                    <td>{{ proveedor.nombre }}</td>
 
-                                <td>
-                                    {{ proveedor.correo }}
-                                </td>
+                                    <td>{{ proveedor.correo }}</td>
 
-                                <td>
-                                    {{ proveedor.telefono }}
-                                </td>
+                                    <td>{{ proveedor.telefono }}</td>
 
-                                <td>
+                                    <td>
 
-                                    {% if proveedor.estado == "Activo" %}
+                                        {% if proveedor.estado == "Activo" %}
 
-                                        <span class="badge bg-success">
-                                            Activo
-                                        </span>
+                                            <span class="badge bg-success">
+                                                Activo
+                                            </span>
 
-                                    {% else %}
+                                        {% else %}
 
-                                        <span class="badge bg-danger">
-                                            Inactivo
-                                        </span>
+                                            <span class="badge bg-secondary">
+                                                Inactivo
+                                            </span>
 
-                                    {% endif %}
+                                        {% endif %}
 
-                                </td>
+                                    </td>
 
-                            </tr>
+                                    <td>
 
-                            {% else %}
+                                        <div class="d-flex gap-2">
 
-                            <tr>
+                                            <a
+                                                href="{{ url_for('editar_proveedor', id=proveedor.id) }}"
+                                                class="btn btn-sm btn-warning"
+                                            >
+                                                Editar
+                                            </a>
 
-                                <td
-                                    colspan="5"
-                                    class="text-center text-muted">
+                                            <form
+                                                method="POST"
+                                                action="{{ url_for('eliminar_proveedor', id=proveedor.id) }}"
+                                                onsubmit="return confirm('¿Seguro que deseas eliminar este proveedor?');"
+                                            >
 
-                                    No existen proveedores registrados.
+                                                <button
+                                                    type="submit"
+                                                    class="btn btn-sm btn-danger"
+                                                >
+                                                    Eliminar
+                                                </button>
 
-                                </td>
+                                            </form>
 
-                            </tr>
+                                        </div>
+
+                                    </td>
+
+                                </tr>
 
                             {% endfor %}
 
@@ -150,27 +117,18 @@
 
                 </div>
 
-            </div>
+            {% else %}
 
-        </div>
+                <div class="alert alert-info mb-0">
+                    No hay proveedores registrados.
+                </div>
 
-
-        <!-- VOLVER -->
-
-        <div class="mt-4">
-
-            <a
-                href="{{ url_for('inicio') }}"
-                class="btn btn-secondary">
-
-                ← Volver al inicio
-
-            </a>
+            {% endif %}
 
         </div>
 
     </div>
 
-</section>
+</div>
 
 {% endblock %}

@@ -1,223 +1,154 @@
 {% extends "base.html" %}
 
-{% block title %}Nueva Factura{% endblock %}
-
 {% block content %}
 
-<section class="py-5">
+<div class="container mt-4">
 
-    <div class="container">
+    <div class="card shadow">
 
-        <div class="row justify-content-center">
+        <div class="card-header bg-primary text-white">
+            <h3 class="mb-0">
+                {% if editar %}
+                    Editar factura
+                {% else %}
+                    Nueva factura
+                {% endif %}
+            </h3>
+        </div>
 
-            <div class="col-lg-7">
+        <div class="card-body">
 
-                <!-- ENCABEZADO -->
+            <form method="POST">
 
-                <div class="d-flex justify-content-between align-items-center mb-4">
+                {{ form.hidden_tag() }}
 
-                    <div>
+                <!-- Número de factura -->
+                <div class="mb-3">
 
-                        <h1 class="fw-bold">
-                            Nueva Factura
-                        </h1>
+                    {{ form.numero.label(class="form-label fw-bold") }}
 
-                        <p class="text-muted mb-0">
-                            Registrar factura en {{ nombre_sistema }}
-                        </p>
+                    {{ form.numero(
+                        class="form-control",
+                        placeholder="Ejemplo: 001-001-000005"
+                    ) }}
 
-                    </div>
+                    {% for error in form.numero.errors %}
+                        <div class="text-danger">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+
+                </div>
+
+
+                <!-- Cliente -->
+                <div class="mb-3">
+
+                    {{ form.cliente_id.label(class="form-label fw-bold") }}
+
+                    {{ form.cliente_id(class="form-select") }}
+
+                    {% for error in form.cliente_id.errors %}
+                        <div class="text-danger">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+
+                </div>
+
+
+                <!-- Producto -->
+                <div class="mb-3">
+
+                    {{ form.producto_id.label(class="form-label fw-bold") }}
+
+                    {{ form.producto_id(class="form-select") }}
+
+                    {% for error in form.producto_id.errors %}
+                        <div class="text-danger">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+
+                </div>
+
+
+                <!-- Fecha -->
+                <div class="mb-3">
+
+                    {{ form.fecha.label(class="form-label fw-bold") }}
+
+                    {{ form.fecha(
+                        class="form-control",
+                        type="date"
+                    ) }}
+
+                    {% for error in form.fecha.errors %}
+                        <div class="text-danger">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+
+                </div>
+
+
+                <!-- Total -->
+                <div class="mb-3">
+
+                    {{ form.total.label(class="form-label fw-bold") }}
+
+                    {{ form.total(
+                        class="form-control",
+                        placeholder="Ejemplo: 500.00"
+                    ) }}
+
+                    {% for error in form.total.errors %}
+                        <div class="text-danger">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+
+                </div>
+
+
+                <!-- Estado -->
+                <div class="mb-3">
+
+                    {{ form.estado.label(class="form-label fw-bold") }}
+
+                    {{ form.estado(class="form-select") }}
+
+                    {% for error in form.estado.errors %}
+                        <div class="text-danger">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+
+                </div>
+
+
+                <!-- Botones -->
+                <div class="d-flex gap-2">
+
+                    {{ form.submit(
+                        class="btn btn-primary"
+                    ) }}
 
                     <a
                         href="{{ url_for('facturacion') }}"
-                        class="btn btn-secondary">
-
-                        ← Volver
-
+                        class="btn btn-secondary"
+                    >
+                        Cancelar
                     </a>
 
                 </div>
 
-
-                <!-- FORMULARIO -->
-
-                <div class="card shadow">
-
-                    <div class="card-body p-4">
-
-                        <form method="POST" novalidate>
-
-                            <!-- PROTECCIÓN CSRF -->
-
-                            {{ form.hidden_tag() }}
-
-
-                            <!-- NÚMERO DE FACTURA -->
-
-                            <div class="mb-3">
-
-                                {{ form.numero.label(class="form-label fw-bold") }}
-
-                                {{ form.numero(
-                                    class="form-control" +
-                                    (" is-invalid" if form.numero.errors else ""),
-                                    placeholder="Ej: 001-001-000004"
-                                ) }}
-
-                                {% if form.numero.errors %}
-
-                                    {% for error in form.numero.errors %}
-
-                                        <div class="invalid-feedback">
-                                            {{ error }}
-                                        </div>
-
-                                    {% endfor %}
-
-                                {% endif %}
-
-                            </div>
-
-
-                            <!-- CLIENTE -->
-
-                            <div class="mb-3">
-
-                                {{ form.cliente.label(class="form-label fw-bold") }}
-
-                                {{ form.cliente(
-                                    class="form-control" +
-                                    (" is-invalid" if form.cliente.errors else ""),
-                                    placeholder="Nombre del cliente"
-                                ) }}
-
-                                {% if form.cliente.errors %}
-
-                                    {% for error in form.cliente.errors %}
-
-                                        <div class="invalid-feedback">
-                                            {{ error }}
-                                        </div>
-
-                                    {% endfor %}
-
-                                {% endif %}
-
-                            </div>
-
-
-                            <!-- FECHA -->
-
-                            <div class="mb-3">
-
-                                {{ form.fecha.label(class="form-label fw-bold") }}
-
-                                {{ form.fecha(
-                                    class="form-control" +
-                                    (" is-invalid" if form.fecha.errors else "")
-                                ) }}
-
-                                {% if form.fecha.errors %}
-
-                                    {% for error in form.fecha.errors %}
-
-                                        <div class="invalid-feedback">
-                                            {{ error }}
-                                        </div>
-
-                                    {% endfor %}
-
-                                {% endif %}
-
-                            </div>
-
-
-                            <!-- TOTAL -->
-
-                            <div class="mb-3">
-
-                                {{ form.total.label(class="form-label fw-bold") }}
-
-                                {{ form.total(
-                                    class="form-control" +
-                                    (" is-invalid" if form.total.errors else ""),
-                                    type="number",
-                                    step="0.01",
-                                    min="0.01",
-                                    placeholder="0.00"
-                                ) }}
-
-                                {% if form.total.errors %}
-
-                                    {% for error in form.total.errors %}
-
-                                        <div class="invalid-feedback">
-                                            {{ error }}
-                                        </div>
-
-                                    {% endfor %}
-
-                                {% endif %}
-
-                            </div>
-
-
-                            <!-- ESTADO -->
-
-                            <div class="mb-3">
-
-                                {{ form.estado.label(class="form-label fw-bold") }}
-
-                                {{ form.estado(
-                                    class="form-select" +
-                                    (" is-invalid" if form.estado.errors else "")
-                                ) }}
-
-                                {% if form.estado.errors %}
-
-                                    {% for error in form.estado.errors %}
-
-                                        <div class="invalid-feedback">
-                                            {{ error }}
-                                        </div>
-
-                                    {% endfor %}
-
-                                {% endif %}
-
-                            </div>
-
-
-                            <!-- BOTONES -->
-
-                            <div class="d-flex gap-2 mt-4">
-
-                                {{ form.submit(
-                                    class="btn btn-primary"
-                                ) }}
-
-                                <a
-                                    href="{{ url_for('facturacion') }}"
-                                    class="btn btn-secondary">
-
-                                    Cancelar
-
-                                </a>
-
-                            </div>
-
-                        </form>
-
-                    </div>
-
-                </div>
-
-            </div>
+            </form>
 
         </div>
 
     </div>
 
-</section>
+</div>
 
 {% endblock %}
