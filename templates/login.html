@@ -1,4 +1,3 @@
-
 {% extends "base.html" %}
 
 {% block content %}
@@ -25,11 +24,13 @@
                         {% endif %}
                     {% endwith %}
 
-                    <form method="POST">
+                    <form method="POST" novalidate>
 
                         {{ form.hidden_tag() }}
 
+                        <!-- Usuario -->
                         <div class="mb-3">
+
                             {{ form.usuario.label(class="form-label") }}
 
                             {{ form.usuario(
@@ -45,9 +46,13 @@
                                     </div>
                                 {% endfor %}
                             {% endif %}
+
                         </div>
 
+
+                        <!-- Contraseña -->
                         <div class="mb-3">
+
                             {{ form.password.label(class="form-label") }}
 
                             {{ form.password(
@@ -62,21 +67,30 @@
                                     </div>
                                 {% endfor %}
                             {% endif %}
+
                         </div>
 
+
+                        <!-- Botón -->
                         {{ form.submit(
                             class="btn btn-primary w-100"
                         ) }}
 
                     </form>
 
+
                     <div class="text-center mt-3">
+
                         <p class="mb-0">
+
                             ¿No tienes una cuenta?
+
                             <a href="{{ url_for('registro') }}">
                                 Registrarse
                             </a>
+
                         </p>
+
                     </div>
 
                 </div>
